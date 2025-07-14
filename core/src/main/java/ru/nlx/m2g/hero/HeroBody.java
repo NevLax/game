@@ -19,7 +19,7 @@ public class HeroBody implements Disposable {
     public HeroBody(World world) {
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
-        bodyDef.position.set(Vector2.Zero);
+        bodyDef.position.set(1000, 500);
         body = world.createBody(bodyDef);
         body.setFixedRotation(true);
 

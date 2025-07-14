@@ -5,6 +5,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -23,6 +26,8 @@ public class GameScreen implements Screen {
     private OrthographicCamera camera;
     private Box2DDebugRenderer debugRenderer;
     private Texture ground;
+    private TiledMap map;
+    private OrthogonalTiledMapRenderer mapRenderer;
 
     public GameScreen(final Main main) {
         this.main = main;
@@ -37,8 +42,11 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera(
             main.viewport.getScreenWidth(),
             main.viewport.getScreenHeight());
+        camera.translate(1000, 500);
         heroInputProcessor = new HeroInputProcessor(hero, camera, moveState);
         Gdx.input.setInputProcessor(heroInputProcessor);
+        map = new TmxMapLoader().load("testFull.tmx");
+        mapRenderer = new OrthogonalTiledMapRenderer(map, main.batch);
     }
 
     @Override
@@ -56,8 +64,10 @@ public class GameScreen implements Screen {
         camera.update();
         main.batch.setProjectionMatrix(camera.combined);
 
+        mapRenderer.setView(camera);
+        mapRenderer.render();
         main.batch.begin();
-            main.batch.draw(ground, ground.getWidth() / -2f, ground.getHeight() / -2f);
+//            main.batch.draw(ground, ground.getWidth() / -2f, ground.getHeight() / -2f);
             hero.draw(main.batch, main.font, delta);
         main.batch.end();
 
@@ -95,5 +105,7 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         hero.dispose();
+        mapRenderer.dispose();
+        map.dispose();
     }
 }

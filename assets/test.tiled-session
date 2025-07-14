@@ -1,0 +1,99 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "testFull.tmx",
+    "expandedProjectPaths": [
+        ".",
+        "ui"
+    ],
+    "file.lastUsedOpenFilter": "Все файлы (*)",
+    "fileStates": {
+        "DeadTrees.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Grass.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Rocks.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "TexturedGrass.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Trees.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Tumbleweed.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "miniWOrld.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "testFull.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1196,
+                "y": 40
+            }
+        },
+        "testPlant.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 384,
+                "y": 384
+            }
+        }
+    },
+    "last.exportedFilePath": "/home/newlax/libgdx/projects/mmmg/assets",
+    "last.imagePath": "/home/newlax/libgdx/projects/mmmg/assets/MiniWorldSprites/Nature",
+    "map.fixedSize": true,
+    "map.height": 200,
+    "map.lastUsedExportFilter": "Файлы Tiled карт (*.tmx *.xml)",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 300,
+    "openFiles": [
+        "TexturedGrass.tsx",
+        "Grass.tsx",
+        "DeadTrees.tsx",
+        "Trees.tsx",
+        "Rocks.tsx",
+        "Tumbleweed.tsx",
+        "testPlant.tmx",
+        "testFull.tmx"
+    ],
+    "project": "test.tiled-project",
+    "recentFiles": [
+        "TexturedGrass.tsx",
+        "Grass.tsx",
+        "DeadTrees.tsx",
+        "Trees.tsx",
+        "Rocks.tsx",
+        "Tumbleweed.tsx",
+        "testPlant.tmx",
+        "testFull.tmx",
+        "miniWOrld.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    },
+    "tileset.type": 1
+}
