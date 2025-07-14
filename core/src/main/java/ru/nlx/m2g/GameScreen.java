@@ -12,11 +12,13 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 import ru.nlx.m2g.hero.Hero;
 import ru.nlx.m2g.hero.HeroInputProcessor;
+import ru.nlx.m2g.hero.MoveState;
 
 public class GameScreen implements Screen {
     private final Main main;
     private Hero hero;
     private HeroInputProcessor heroInputProcessor;
+    private MoveState moveState;
     private World world;
     private OrthographicCamera camera;
     private Box2DDebugRenderer debugRenderer;
@@ -26,14 +28,16 @@ public class GameScreen implements Screen {
         this.main = main;
         world = new World(Vector2.Zero, true);
         ground = new Texture("ground.jpg");
+        moveState = new MoveState();
         hero = new Hero(new Texture(
             Gdx.files.internal("MiniWorldSprites/Characters/Workers/FarmerTemplate.png")),
-            world);
+            world,
+            moveState);
         debugRenderer = new Box2DDebugRenderer();
         camera = new OrthographicCamera(
             main.viewport.getScreenWidth(),
             main.viewport.getScreenHeight());
-        heroInputProcessor = new HeroInputProcessor(hero, camera);
+        heroInputProcessor = new HeroInputProcessor(hero, camera, moveState);
         Gdx.input.setInputProcessor(heroInputProcessor);
     }
 
@@ -54,7 +58,7 @@ public class GameScreen implements Screen {
 
         main.batch.begin();
             main.batch.draw(ground, ground.getWidth() / -2f, ground.getHeight() / -2f);
-            hero.draw(main.batch, delta);
+            hero.draw(main.batch, main.font, delta);
         main.batch.end();
 
         debugRenderer.render(world, camera.combined);
@@ -64,7 +68,6 @@ public class GameScreen implements Screen {
         float factor = 3f;
 
         camera.position.lerp(new Vector3(hero.getHeroPosition(), 0), factor * delta);
-//        camera.position.set(hero.getHeroPosition(), 0);
     }
 
     @Override

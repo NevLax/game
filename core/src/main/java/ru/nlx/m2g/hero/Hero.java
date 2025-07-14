@@ -1,71 +1,42 @@
 package ru.nlx.m2g.hero;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 public class Hero {
-    private Texture texture;
-    private HeroTextureRegion textureRegion;
-    private Animation<TextureRegion> idle;
-    private Animation<TextureRegion> idleInv;
-    private Animation<TextureRegion> run;
-    private Animation<TextureRegion> runInv;
-    private int editDrawPosition = 8;
-    private float time = 0;
+    private HeroDrawler drawler;
     private HeroBody body;
+    private MoveState moveState;
+    private float shoutTime = 0;
 
-    public boolean Up = false;
-    public boolean Down = false;
-    public boolean Right = false;
-    public boolean Left = false;
-
-    public Hero(Texture texture, World world) {
-        this.texture = texture;
-        textureRegion = new HeroTextureRegion(texture);
-
-        idle = new Animation<>(0.4f, textureRegion.getIdleRegion());
-        idle.setPlayMode(Animation.PlayMode.LOOP);
-
-        idleInv = new Animation<>(0.4f, textureRegion.getIdleInvert());
-        idleInv.setPlayMode(Animation.PlayMode.LOOP);
-
-        run = new Animation<>(0.2f, textureRegion.getRunRegion());
-        run.setPlayMode(Animation.PlayMode.LOOP);
-
-        runInv = new Animation<>(0.2f, textureRegion.getRunInvert());
-        runInv.setPlayMode(Animation.PlayMode.LOOP);
-
+    public Hero(Texture texture, World world, MoveState moveState) {
+        drawler = new HeroDrawler(texture);
         body = new HeroBody(world);
+        this.moveState = moveState;
     }
 
     public void update() {
-        int ver = 0;
-        int hor = 0;
-
-        if (Up) ver++;
-        if (Down) ver--;
-        if (Right) hor++;
-        if (Left) hor--;
-
-        body.update(hor, ver);
+        body.update(moveState.hor, moveState.ver);
     }
 
-    public void draw(SpriteBatch batch, float delta) {
-        time += delta;
+    public void draw(SpriteBatch batch, BitmapFont font, float delta) {
         Vector2 pos = body.getPosition();
         boolean inv = body.getLinearVelocity().x < 0;
-
-        if (body.getLinearVelocity().len() > 10f) {
-            if (inv) batch.draw(runInv.getKeyFrame(time, true), pos.x - editDrawPosition, pos.y - editDrawPosition);
-            else batch.draw(run.getKeyFrame(time, true), pos.x - editDrawPosition, pos.y - editDrawPosition);
-        } else {
-            if (inv) batch.draw(idleInv.getKeyFrame(time, true), pos.x - editDrawPosition, pos.y - editDrawPosition);
-            else batch.draw(idle.getKeyFrame(time, true), pos.x - editDrawPosition, pos.y - editDrawPosition);
+        boolean running = body.getLinearVelocity().len() > 10f;
+        boolean shout = false;
+        if (shoutTime > 0) {
+            shout = true;
+            shoutTime -= delta;
         }
+
+        drawler.draw(batch, font, pos, delta, inv, running, shout);
+    }
+
+    public void setShout() {
+        shoutTime = 3f;
     }
 
     public Vector2 getHeroPosition() {
@@ -73,6 +44,6 @@ public class Hero {
     }
 
     public void dispose() {
-        texture.dispose();
+        drawler.dispose();
     }
 }

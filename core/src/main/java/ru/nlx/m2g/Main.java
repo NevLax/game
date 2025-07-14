@@ -17,6 +17,7 @@ public class Main extends Game {
         batch = new SpriteBatch();
 
         font = new BitmapFont();
+//        font.getData().setScale();
         viewport = new ScreenViewport();
 
         font.setUseIntegerPositions(false);

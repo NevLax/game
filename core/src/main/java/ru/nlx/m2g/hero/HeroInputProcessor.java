@@ -3,32 +3,35 @@ package ru.nlx.m2g.hero;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public class HeroInputProcessor implements InputProcessor {
 
     public Hero hero;
+    public MoveState moveState;
     public OrthographicCamera camera;
 
-    public HeroInputProcessor(Hero hero, OrthographicCamera camera) {
+    public HeroInputProcessor(Hero hero, OrthographicCamera camera, MoveState moveState) {
         this.hero = hero;
         this.camera = camera;
+        this.moveState = moveState;
     }
 
     @Override
     public boolean keyDown(int keycode) {
         switch (keycode) {
             case Input.Keys.A:
-                hero.Left = true;
+                moveState.hor--;
                 break;
             case Input.Keys.D:
-                hero.Right = true;
+                moveState.hor++;
                 break;
             case Input.Keys.W:
-                hero.Up = true;
+                moveState.ver++;
                 break;
             case Input.Keys.S:
-                hero.Down = true;
+                moveState.ver--;
                 break;
         }
         return true;
@@ -38,16 +41,16 @@ public class HeroInputProcessor implements InputProcessor {
     public boolean keyUp(int keycode) {
         switch (keycode) {
             case Input.Keys.A:
-                hero.Left = false;
+                moveState.hor++;
                 break;
             case Input.Keys.D:
-                hero.Right = false;
+                moveState.hor--;
                 break;
             case Input.Keys.W:
-                hero.Up = false;
+                moveState.ver--;
                 break;
             case Input.Keys.S:
-                hero.Down = false;
+                moveState.ver++;
                 break;
         }
         return true;
@@ -61,7 +64,11 @@ public class HeroInputProcessor implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector3 worldCoord = camera.unproject(new Vector3(screenX, screenY, 0));
-        System.out.println("worldCoord = " + worldCoord);
+        Vector2 heroPos = hero.getHeroPosition();
+        if (Math.abs(heroPos.x - worldCoord.x) < 9 &&
+            Math.abs(heroPos.y - worldCoord.y) < 9) {
+            hero.setShout();
+        }
         return true;
     }
 
